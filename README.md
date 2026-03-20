@@ -1,2 +1,3 @@
-# simupro-v2
-SimuPro Enel - Sistema de Gestion de Propuestas B2B
+# EnergyCore | Enel 
+El núcleo inteligente del suministro energético.
+
