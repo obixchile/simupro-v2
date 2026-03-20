@@ -54,7 +54,7 @@ export default function Login({ onLogin }: Props) {
           </div>
           <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, margin: 0 }}>El núcleo inteligente del suministro energético</p>
         </div>
-        <div style={{ width: '100%', background: 'white', borderRadius: 20, padding: '2.5rem 2rem', boxShadow: '0 20px 60px rgba(0,0,0,0,4)' }}>
+        <div style={{ width: '100%', background: 'white', borderRadius: 20, padding: '2.5rem 2rem', boxShadow: '0 20px 60px rgba(0,0,0,0.4)' }}>
           <h2 style={{ fontSize: 22, fontWeight: 700, color: '#0f172a', textAlign: 'center', margin: '0 0 0.5rem' }}>Iniciar Sesión</h2>
           <p style={{ fontSize: 13, color: '#94a3b8', textAlign: 'center', margin: '0 0 1.75rem' }}>Ingresa tus credenciales para acceder al sistema</p>
           <form onSubmit={handle} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
