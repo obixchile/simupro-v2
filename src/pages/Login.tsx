@@ -16,39 +16,30 @@ export default function Login({ onLogin }: Props) {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#0d1b2a,#1e3a5f)' }}>
-      <div style={{ width: '100%', maxWidth: 380, padding: '0 16px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <h1 style={{ color: 'white', fontSize: 48, fontWeight: 300, margin: '0 0 16px' }}>enel</h1>
-          <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 16, padding: 16 }}>
-            <p style={{ color: 'white', fontWeight: 700, fontSize: 20, margin: '0 0 4px' }}>SIMUPRO</p>
-            <p style={{ color: '#93c5fd', fontSize: 13, margin: 0 }}>Sistema de Gestion de Suministro Electrico</p>
-          </div>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%)', fontFamily: "'Roboto', sans-serif" }}>
+      <div style={{ width: '100%', maxWidth: 420, padding: '0 24px', textAlign: 'center' }}>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Enel_Logo.svg/1024px-Enel_Logo.svg.png" alt="Enel" style={{ height: 40, marginBottom: 32 }} />
+        <div style={{ marginBottom: 40 }}>
+          <h1 style={{ color: 'white', fontSize: 42, fontWeight: 700, margin: '0 0 8px', letterSpacing: '-1px' }}>EnergyCore</h1>
+          <p style={{ color: '#94a3b8', fontSize: 16, margin: 0 }}>El núcleo inteligente del suministro energético</p>
         </div>
-        <div style={{ background: 'white', borderRadius: 16, padding: 24, boxShadow: '0 25px 50px rgba(0,0,0,0.3)' }}>
-          <h2 style={{ margin: '0 0 4px', fontSize: 20 }}>Iniciar Sesion</h2>
-          <p style={{ color: '#6b7280', fontSize: 13, margin: '0 0 16px' }}>Ingresa tus credenciales</p>
-          <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 8, padding: 12, marginBottom: 16, fontSize: 12 }}>
-            <strong>Modo Demo</strong><br/>
-            Email: demo@enel.com &nbsp;|&nbsp; Password: enel2026
-          </div>
-          <form onSubmit={handle}>
-            <div style={{ marginBottom: 12 }}>
-              <label style={{ fontSize: 13, fontWeight: 500 }}>Email</label>
-              <input value={email} onChange={e => setEmail(e.target.value)} type='email'
-                style={{ width: '100%', marginTop: 4, padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 13, boxSizing: 'border-box' }}
-                placeholder='demo@enel.com' />
+        <div style={{ background: 'rgba(255, 255, 255, 0.03)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 24, padding: 32, boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)' }}>
+          <h2 style={{ color: 'white', fontSize: 24, marginBottom: 24, fontWeight: 500 }}>Iniciar Sesión</h2>
+          <form onSubmit={handle} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            <div style={{ textAlign: 'left' }}>
+              <label style={{ color: '#94a3b8', fontSize: 13, display: 'block', marginBottom: 8, marginLeft: 4 }}>Email Corporativo</label>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} style={{ width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: 'white', fontSize: 15, boxSizing: 'border-box' }} required />
             </div>
-            <div style={{ marginBottom: 12 }}>
-              <label style={{ fontSize: 13, fontWeight: 500 }}>Contrasena</label>
-              <input value={pw} onChange={e => setPw(e.target.value)} type='password'
-                style={{ width: '100%', marginTop: 4, padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 13, boxSizing: 'border-box' }} />
+            <div style={{ textAlign: 'left' }}>
+              <label style={{ color: '#94a3b8', fontSize: 13, display: 'block', marginBottom: 8, marginLeft: 4 }}>Contraseña</label>
+              <input type="password" value={pw} onChange={e => setPw(e.target.value)} style={{ width: '100%', padding: '14px 18px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', color: 'white', fontSize: 15, boxSizing: 'border-box' }} required />
             </div>
-            {err && <p style={{ color: '#ef4444', fontSize: 12, margin: '0 0 8px' }}>{err}</p>}
-            <button type='submit' style={{ width: '100%', padding: '12px', borderRadius: 8, border: 'none', background: 'linear-gradient(135deg,#3b82f6,#06b6d4)', color: 'white', fontWeight: 600, cursor: 'pointer', fontSize: 14 }}>
-              Ingresar al Sistema
-            </button>
+            {err && <p style={{ color: '#f87171', fontSize: 14, margin: 0 }}>{err}</p>}
+            <button type="submit" style={{ padding: '16px', borderRadius: 12, border: 'none', background: 'linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%)', color: 'white', fontWeight: 600, fontSize: 16, cursor: 'pointer', marginTop: 8 }}>Entrar al Núcleo</button>
           </form>
+          <div style={{ marginTop: 24, padding: 12, borderRadius: 12, background: 'rgba(0, 210, 255, 0.05)', border: '1px solid rgba(0, 210, 255, 0.2)' }}>
+            <p style={{ color: '#00d2ff', fontSize: 12, margin: 0 }}>Modo Demo: demo@enel.com | enel2026</p>
+          </div>
         </div>
       </div>
     </div>
