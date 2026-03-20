@@ -41,10 +41,11 @@ export default function Login({ onLogin }: Props) {
   const NovIcon = nov.icon;
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(160deg,#0f2460 0%,#1e3a8a 50%,#1e40af 100%)', fontFamily: "'Roboto',sans-serif", padding: '2rem 1rem' }}>
-      <img src={ENEL_LOGO} alt="Enel" style={{ height: 56, filter: 'brightness(0) invert(1)', marginBottom: '2rem' }} />
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgb(13, 27, 42)'
+, fontFamily: "'Roboto',sans-serif", padding: '2rem 1rem' }}>
+      <img src={ENEL_LOGO} alt="Enel" style={{ height: 76, filter: 'brightness(0) invert(1)', marginBottom: '2rem' }} />
       <div style={{ width: '100%', maxWidth: 480, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-        <div style={{ width: '100%', background: 'rgba(255,255,255,0.07)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 20, padding: '1.5rem 2rem', textAlign: 'center' }}>
+        <div style={{ width: '100%', style={{ background: 'rgba(255,255,255,0.07)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 20, padding: '1.5rem 2rem', textAlign: 'center', boxShadow: '0 4px 16px rgba(0,0,0,0.3)' }}, textAlign: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 8 }}>
             <div style={{ width: 44, height: 44, borderRadius: 12, background: 'linear-gradient(135deg,#2563eb,#3b82f6)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 14px rgba(59,130,246,0.4)' }}>
               <Zap size={24} color="white" fill="white" />
@@ -53,24 +54,24 @@ export default function Login({ onLogin }: Props) {
           </div>
           <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, margin: 0 }}>El núcleo inteligente del suministro energético</p>
         </div>
-        <div style={{ width: '100%', background: 'white', borderRadius: 20, padding: '2.5rem 2rem', boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}>
+        <div style={{ width: '100%', background: 'white', borderRadius: 20, padding: '2.5rem 2rem', boxShadow: '0 20px 60px rgba(0,0,0,0,4)' }}>
           <h2 style={{ fontSize: 22, fontWeight: 700, color: '#0f172a', textAlign: 'center', margin: '0 0 0.5rem' }}>Iniciar Sesión</h2>
           <p style={{ fontSize: 13, color: '#94a3b8', textAlign: 'center', margin: '0 0 1.75rem' }}>Ingresa tus credenciales para acceder al sistema</p>
           <form onSubmit={handle} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 500, color: '#374151', marginBottom: 6 }}>Email</label>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} style={{ width: '100%', padding: '11px 14px', borderRadius: 10, border: '1.5px solid #e2e8f0', fontSize: 14, boxSizing: 'border-box', outline: 'none' }} placeholder="demo@enel.com" required />
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} style={{ width: '100%', padding: '11px 14px', borderRadius: 10, border: '1.5px solid #e2e8f0', fontSize: 14, boxSizing: 'border-box', outline: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }} placeholder="demo@enel.com" required />
             </div>
             <div>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 500, color: '#374151', marginBottom: 6 }}>Contraseña</label>
-              <input type="password" value={pw} onChange={e => setPw(e.target.value)} style={{ width: '100%', padding: '11px 14px', borderRadius: 10, border: '1.5px solid #e2e8f0', fontSize: 14, boxSizing: 'border-box', outline: 'none' }} placeholder="••••••••" required />
+              <input type="password" value={pw} onChange={e => setPw(e.target.value)} style={{ width: '100%', padding: '11px 14px', borderRadius: 10, border: '1.5px solid #e2e8f0', fontSize: 14, boxSizing: 'border-box', outline: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }} placeholder="••••••••" required />
             </div>
             {err && <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, padding: '9px 12px', fontSize: 13, color: '#dc2626' }}>{err}</div>}
             <button type="submit" style={{ width: '100%', padding: '13px', borderRadius: 10, border: 'none', background: 'linear-gradient(135deg,#1d4ed8,#3b82f6)', color: 'white', fontSize: 15, fontWeight: 700, cursor: 'pointer', marginTop: 6, boxShadow: '0 4px 14px rgba(37,99,235,0.4)' }}>Entrar</button>
           </form>
           <p style={{ fontSize: 12, color: '#94a3b8', textAlign: 'center', marginTop: '1.25rem', marginBottom: 0 }}>¿Problemas para acceder? <a href="mailto:soporte@energycore.cl" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 600 }}>Contactar soporte</a></p>
         </div>
-        <div style={{ width: '100%', background: 'rgba(255,255,255,0.07)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 20, padding: '1.25rem 1.5rem' }}>
+        <div style={{ width: '100%', background: 'rgba(255,255,255,0.07)', boxShadow: '0 4px 16px rgba(0,0,0,0.3)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 20, padding: '1.25rem 1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
             <Zap size={18} color="#fbbf24" fill="#fbbf24" />
             <span style={{ color: 'white', fontWeight: 700, fontSize: 15 }}>Novedades del Sistema</span>
