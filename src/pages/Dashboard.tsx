@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { LayoutDashboard, TrendingUp, Users, CheckCircle, ArrowUpRight } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, Users, CheckCircle, ArrowUpRight, Building2 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend,
@@ -20,23 +20,29 @@ const ESTADO_COLORS: Record<string, string> = {
   perdido: '#ef4444',
 };
 
+const CARD_STYLE: React.CSSProperties = {
+  background: 'white',
+  borderRadius: 12,
+  padding: '1.5rem',
+  boxShadow: '0 1px 3px rgba(0,0,0,0.07), 0 2px 8px rgba(0,0,0,0.04)',
+  border: '1px solid #e2e8f0',
+};
+
 export default function Dashboard() {
   const { propuestas } = useApp();
 
   const stats = [
-    { label: 'Total Propuestas', val: propuestas.length, icon: LayoutDashboard, color: '#3b82f6', bg: '#eff6ff' },
-    { label: 'En Revisión', val: propuestas.filter(p => p.estado === 'revision_interna').length, icon: TrendingUp, color: '#f59e0b', bg: '#fffbeb' },
-    { label: 'Ganadas', val: propuestas.filter(p => p.estado === 'ganado').length, icon: CheckCircle, color: '#10b981', bg: '#ecfdf5' },
-    { label: 'Empresas', val: new Set(propuestas.map(p => p.clienteNombre)).size, icon: Users, color: '#6366f1', bg: '#eef2ff' },
+    { label: 'Total Propuestas', val: propuestas.length, icon: LayoutDashboard, color: '#3b82f6', border: '#3b82f6', sub: propuestas.length + ' registradas' },
+    { label: 'En Revisión', val: propuestas.filter(p => p.estado === 'revision_interna').length, icon: TrendingUp, color: '#f59e0b', border: '#f59e0b', sub: 'pendientes de revisión' },
+    { label: 'Ganadas', val: propuestas.filter(p => p.estado === 'ganado').length, icon: CheckCircle, color: '#10b981', border: '#10b981', sub: 'propuestas cerradas' },
+    { label: 'Empresas', val: new Set(propuestas.map(p => p.clienteNombre)).size, icon: Building2, color: '#8b5cf6', border: '#8b5cf6', sub: 'clientes activos' },
   ];
 
-  // Bar chart: monto por cliente
   const barData = propuestas.map(p => ({
     name: p.clienteNombre.split(' ').slice(0, 2).join(' '),
-    monto: p.monto / 1_000_000,
+    monto: Math.round(p.monto / 1_000_000 * 10) / 10,
   }));
 
-  // Pie chart: propuestas por estado
   const estadoCounts: Record<string, number> = {};
   propuestas.forEach(p => {
     estadoCounts[p.estado] = (estadoCounts[p.estado] || 0) + 1;
@@ -50,138 +56,149 @@ export default function Dashboard() {
   const totalMonto = propuestas.reduce((s, p) => s + p.monto, 0);
 
   return (
-    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 24px', fontFamily: "'Roboto', sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: '#f8fafc', padding: '2rem 1.5rem', fontFamily: "'Roboto', sans-serif" }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
-      {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: 36 }}>
-        <h1 style={{ fontSize: 32, fontWeight: 700, color: '#0f172a', margin: '0 0 8px', letterSpacing: '-0.5px' }}>EnergyCore Dashboard</h1>
-        <p style={{ color: '#64748b', fontSize: 16, margin: 0 }}>Bienvenido al núcleo inteligente del suministro energético</p>
-      </div>
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <h1 style={{ fontSize: '1.875rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.4rem', letterSpacing: '-0.5px' }}>
+            ⚡ EnergyCore Dashboard
+          </h1>
+          <p style={{ color: '#64748b', fontSize: '1rem', margin: 0 }}>Bienvenido al núcleo inteligente del suministro energético</p>
+        </div>
 
-      {/* KPI Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 20, marginBottom: 36 }}>
-        {stats.map((s, i) => (
-          <div key={i} style={{
-            background: 'white',
-            borderRadius: 16,
-            padding: '24px 20px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center',
-            border: '1px solid #f1f5f9',
-          }}>
-            <div style={{ width: 48, height: 48, borderRadius: 12, background: s.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
-              <s.icon size={22} color={s.color} />
+        {/* CHARTS FIRST */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.5rem' }}>
+
+          {/* Bar Chart */}
+          <div style={CARD_STYLE}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600, color: '#0f172a' }}>Montos por Propuesta</h3>
+                <p style={{ margin: '0.25rem 0 0', fontSize: '0.8rem', color: '#94a3b8' }}>En millones de pesos (CLP)</p>
+              </div>
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 4,
+                background: '#ecfdf5', color: '#10b981',
+                fontSize: '0.8rem', fontWeight: 600,
+                padding: '4px 10px', borderRadius: 20,
+              }}>
+                <ArrowUpRight size={13} />
+                <span>${(totalMonto / 1_000_000).toFixed(1)}M total</span>
+              </div>
             </div>
-            <span style={{ fontSize: 28, fontWeight: 700, color: '#0f172a' }}>{s.val}</span>
-            <span style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>{s.label}</span>
+            <ResponsiveContainer width="100%" height={210}>
+              <BarChart data={barData} margin={{ top: 4, right: 4, left: -18, bottom: 0 }} barSize={32}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 11, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
+                <Tooltip
+                  cursor={{ fill: '#f1f5f9' }}
+                  formatter={(v: number) => [`$${v.toFixed(1)}M`, 'Monto']}
+                  contentStyle={{ borderRadius: 10, border: '1px solid #e2e8f0', fontSize: 13, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
+                />
+                <Bar dataKey="monto" fill="#3b82f6" radius={[6, 6, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
-        ))}
-      </div>
 
-      {/* Charts Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 36 }}>
+          {/* Pie Chart */}
+          <div style={CARD_STYLE}>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600, color: '#0f172a' }}>Estado de Propuestas</h3>
+              <p style={{ margin: '0.25rem 0 0', fontSize: '0.8rem', color: '#94a3b8' }}>Distribución por estado actual</p>
+            </div>
+            <ResponsiveContainer width="100%" height={210}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="45%"
+                  innerRadius={52}
+                  outerRadius={82}
+                  paddingAngle={4}
+                  dataKey="value"
+                  strokeWidth={0}
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={index} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  formatter={(v: number, name: string) => [v + ' propuestas', name]}
+                  contentStyle={{ borderRadius: 10, border: '1px solid #e2e8f0', fontSize: 13, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
+                />
+                <Legend
+                  iconType="circle"
+                  iconSize={8}
+                  wrapperStyle={{ fontSize: 12, color: '#64748b', paddingTop: 8 }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
 
-        {/* Bar Chart: Montos por propuesta */}
-        <div style={{ background: 'white', borderRadius: 16, padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', border: '1px solid #f1f5f9' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+        {/* KPI Cards - Clientes style */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
+          {stats.map((s, i) => (
+            <div key={i} style={{
+              ...CARD_STYLE,
+              borderTop: `3px solid ${s.border}`,
+              padding: '1.25rem 1.25rem 1rem',
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: 500, color: '#64748b' }}>{s.label}</span>
+                <s.icon size={16} color={s.color} />
+              </div>
+              <div style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', lineHeight: 1 }}>{s.val}</div>
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.35rem' }}>{s.sub}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Recent proposals table */}
+        <div style={CARD_STYLE}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
             <div>
-              <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, color: '#0f172a' }}>Montos por Propuesta</h3>
-              <p style={{ margin: '4px 0 0', fontSize: 13, color: '#94a3b8' }}>En millones de pesos (CLP)</p>
+              <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600, color: '#0f172a' }}>Propuestas Recientes</h3>
+              <p style={{ margin: '0.25rem 0 0', fontSize: '0.8rem', color: '#94a3b8' }}>Últimas propuestas registradas</p>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#10b981', fontSize: 13, fontWeight: 600 }}>
-              <ArrowUpRight size={16} />
-              <span>Total: ${(totalMonto / 1_000_000).toFixed(1)}M</span>
-            </div>
+            <button style={{ background: 'none', border: '1px solid #e2e8f0', borderRadius: 8, padding: '6px 14px', fontSize: 13, color: '#3b82f6', cursor: 'pointer', fontWeight: 500 }}>Ver todas</button>
           </div>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={barData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-              <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#94a3b8' }} />
-              <YAxis tick={{ fontSize: 11, fill: '#94a3b8' }} />
-              <Tooltip
-                formatter={(v: number) => [`$${v.toFixed(1)}M`, 'Monto']}
-                contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 13 }}
-              />
-              <Bar dataKey="monto" fill="#3b82f6" radius={[6, 6, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Pie Chart: Estado de propuestas */}
-        <div style={{ background: 'white', borderRadius: 16, padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', border: '1px solid #f1f5f9' }}>
-          <div style={{ marginBottom: 20 }}>
-            <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, color: '#0f172a' }}>Estado de Propuestas</h3>
-            <p style={{ margin: '4px 0 0', fontSize: 13, color: '#94a3b8' }}>Distribución por estado actual</p>
-          </div>
-          <ResponsiveContainer width="100%" height={220}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                cx="50%"
-                cy="50%"
-                innerRadius={55}
-                outerRadius={85}
-                paddingAngle={3}
-                dataKey="value"
-              >
-                {pieData.map((entry, index) => (
-                  <Cell key={index} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip
-                formatter={(v: number, name: string) => [v, name]}
-                contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 13 }}
-              />
-              <Legend
-                iconType="circle"
-                iconSize={8}
-                wrapperStyle={{ fontSize: 12, color: '#64748b' }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Recent proposals table */}
-      <div style={{ background: 'white', borderRadius: 16, padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', border: '1px solid #f1f5f9' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-          <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, color: '#0f172a' }}>Propuestas Recientes</h3>
-          <button style={{ background: 'none', border: '1px solid #e2e8f0', borderRadius: 8, padding: '6px 14px', fontSize: 13, color: '#3b82f6', cursor: 'pointer', fontWeight: 500 }}>Ver todas</button>
-        </div>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
-            <thead>
-              <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                <th style={{ textAlign: 'left', padding: '8px 12px', color: '#94a3b8', fontWeight: 500, fontSize: 12 }}>Cliente</th>
-                <th style={{ textAlign: 'left', padding: '8px 12px', color: '#94a3b8', fontWeight: 500, fontSize: 12 }}>Estado</th>
-                <th style={{ textAlign: 'right', padding: '8px 12px', color: '#94a3b8', fontWeight: 500, fontSize: 12 }}>Monto</th>
-              </tr>
-            </thead>
-            <tbody>
-              {propuestas.slice(0, 5).map(p => (
-                <tr key={p.id} style={{ borderBottom: '1px solid #f8fafc' }}>
-                  <td style={{ padding: '12px 12px', color: '#0f172a', fontWeight: 500 }}>{p.clienteNombre}</td>
-                  <td style={{ padding: '12px 12px' }}>
-                    <span style={{
-                      background: (ESTADO_COLORS[p.estado] || '#94a3b8') + '20',
-                      color: ESTADO_COLORS[p.estado] || '#94a3b8',
-                      borderRadius: 20,
-                      padding: '3px 10px',
-                      fontSize: 12,
-                      fontWeight: 500,
-                    }}>
-                      {ESTADO_LABELS[p.estado] || p.estado}
-                    </span>
-                  </td>
-                  <td style={{ padding: '12px 12px', textAlign: 'right', color: '#0f172a', fontWeight: 600 }}>${p.monto.toLocaleString('es-CL')}</td>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
+                  <th style={{ textAlign: 'left', padding: '8px 12px', color: '#94a3b8', fontWeight: 500, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Cliente</th>
+                  <th style={{ textAlign: 'left', padding: '8px 12px', color: '#94a3b8', fontWeight: 500, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Estado</th>
+                  <th style={{ textAlign: 'right', padding: '8px 12px', color: '#94a3b8', fontWeight: 500, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Monto</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {propuestas.slice(0, 5).map(p => (
+                  <tr key={p.id} style={{ borderBottom: '1px solid #f8fafc', transition: 'background 0.15s' }}>
+                    <td style={{ padding: '12px 12px', color: '#0f172a', fontWeight: 500 }}>{p.clienteNombre}</td>
+                    <td style={{ padding: '12px 12px' }}>
+                      <span style={{
+                        background: (ESTADO_COLORS[p.estado] || '#94a3b8') + '18',
+                        color: ESTADO_COLORS[p.estado] || '#94a3b8',
+                        borderRadius: 20,
+                        padding: '3px 10px',
+                        fontSize: 12,
+                        fontWeight: 600,
+                        border: `1px solid ${(ESTADO_COLORS[p.estado] || '#94a3b8')}30`,
+                      }}>
+                        {ESTADO_LABELS[p.estado] || p.estado}
+                      </span>
+                    </td>
+                    <td style={{ padding: '12px 12px', textAlign: 'right', color: '#0f172a', fontWeight: 600 }}>${p.monto.toLocaleString('es-CL')}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
+
       </div>
     </div>
   );
