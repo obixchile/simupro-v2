@@ -1,5 +1,216 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;}
-.sidebar-gradient{background:linear-gradient(180deg,#111827 0%,#0d1b2a 100%);}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 72px;
+  background: #0d1b2a;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  border-right: 1px solid rgba(255,255,255,0.05);
+  flex-shrink: 0;
+  transition: width 0.25s cubic-bezier(.4,0,.2,1);
+  position: relative;
+  z-index: 40;
+}
+
+.sidebar:hover {
+  width: 240px;
+}
+
+.sidebar .nav-label,
+.sidebar .brand-text,
+.sidebar .footer-full {
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.18s ease;
+  pointer-events: none;
+}
+
+.sidebar:hover .nav-label,
+.sidebar:hover .brand-text,
+.sidebar:hover .footer-full {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar .footer-mini {
+  opacity: 1;
+  transition: opacity 0.18s ease;
+}
+
+.sidebar:hover .footer-mini {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+/* Sidebar overlay for mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 39;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* Mobile hamburger */
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 50;
+  padding: 8px;
+  background: #0d1b2a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* ── Responsive grids ── */
+.grid-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.grid-kpi-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.grid-kpi-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.grid-form-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.grid-propuesta { display: grid; grid-template-columns: 1fr 350px; gap: 2rem; }
+.grid-reportes { display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; }
+
+/* Client card */
+.client-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.client-card-stats {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* Steps indicator */
+.steps-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+
+/* Page container */
+.page-container {
+  padding: 2rem 1.5rem;
+}
+
+/* ── Tablet ≤ 1024px ── */
+@media (max-width: 1024px) {
+  .grid-kpi-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-propuesta { grid-template-columns: 1fr; }
+  .grid-reportes { grid-template-columns: 1fr; }
+}
+
+/* ── Mobile ≤ 768px ── */
+@media (max-width: 768px) {
+  /* Sidebar becomes fixed overlay */
+  .sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    bottom: 0;
+    width: 240px;
+    z-index: 45;
+    transition: left 0.3s cubic-bezier(.4,0,.2,1);
+  }
+
+  .sidebar:hover {
+    width: 240px;
+  }
+
+  .sidebar.mobile-open {
+    left: 0;
+  }
+
+  .sidebar.mobile-open .nav-label,
+  .sidebar.mobile-open .brand-text,
+  .sidebar.mobile-open .footer-full {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .sidebar.mobile-open .footer-mini {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Main content adjustments */
+  .app-main {
+    padding: 1rem !important;
+    padding-top: 3.5rem !important;
+    margin-left: 0 !important;
+  }
+
+  .page-container {
+    padding: 0.75rem;
+  }
+
+  /* Grids go single column */
+  .grid-charts { grid-template-columns: 1fr; }
+  .grid-kpi-4 { grid-template-columns: 1fr; }
+  .grid-kpi-3 { grid-template-columns: 1fr; }
+  .grid-form-2 { grid-template-columns: 1fr; }
+
+  .client-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .client-card-stats {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .steps-indicator {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .steps-indicator > svg {
+    display: none;
+  }
+
+  /* Headers smaller */
+  h1 { font-size: 1.35rem !important; }
+}
+
+/* ── Small phone ≤ 480px ── */
+@media (max-width: 480px) {
+  .page-container {
+    padding: 0.5rem;
+  }
+
+  h1 { font-size: 1.15rem !important; }
+}

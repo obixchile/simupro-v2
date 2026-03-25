@@ -56,7 +56,7 @@ export default function Dashboard() {
   const totalMonto = propuestas.reduce((s, p) => s + p.monto, 0);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc', padding: '2rem 1.5rem', fontFamily: "'Roboto', sans-serif" }}>
+    <div className="page-container" style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: "'Roboto', sans-serif" }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
         {/* Header */}
@@ -67,12 +67,12 @@ export default function Dashboard() {
           <p style={{ color: '#64748b', fontSize: '1rem', margin: 0 }}>Bienvenido al núcleo inteligente del suministro energético</p>
         </div>
 
-        {/* CHARTS FIRST */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.5rem' }}>
+        {/* CHARTS */}
+        <div className="grid-charts" style={{ marginBottom: '1.5rem' }}>
 
           {/* Bar Chart */}
           <div style={CARD_STYLE}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.5rem' }}>
               <div>
                 <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600, color: '#0f172a' }}>Montos por Propuesta</h3>
                 <p style={{ margin: '0.25rem 0 0', fontSize: '0.8rem', color: '#94a3b8' }}>En millones de pesos (CLP)</p>
@@ -138,8 +138,8 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* KPI Cards - Clientes style */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
+        {/* KPI Cards */}
+        <div className="grid-kpi-4" style={{ marginBottom: '1.5rem' }}>
           {stats.map((s, i) => (
             <div key={i} style={{
               ...CARD_STYLE,
@@ -158,7 +158,7 @@ export default function Dashboard() {
 
         {/* Recent proposals table */}
         <div style={CARD_STYLE}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.5rem' }}>
             <div>
               <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600, color: '#0f172a' }}>Propuestas Recientes</h3>
               <p style={{ margin: '0.25rem 0 0', fontSize: '0.8rem', color: '#94a3b8' }}>Últimas propuestas registradas</p>
@@ -166,7 +166,7 @@ export default function Dashboard() {
             <button style={{ background: 'none', border: '1px solid #e2e8f0', borderRadius: 8, padding: '6px 14px', fontSize: 13, color: '#3b82f6', cursor: 'pointer', fontWeight: 500 }}>Ver todas</button>
           </div>
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14, minWidth: 480 }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
                   <th style={{ textAlign: 'left', padding: '8px 12px', color: '#94a3b8', fontWeight: 500, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Cliente</th>

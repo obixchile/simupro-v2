@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import{useApp}from '../context/AppContext';
 import{Save,ArrowRight,ChevronRight,FileText,Zap,Shield,BarChart3}from 'lucide-react';
+
 export default function NuevaPropuesta(){
 const{addPropuesta}=useApp();
 const[step,setStep]=useState(1);
@@ -13,38 +14,38 @@ addPropuesta({...formData,id:Date.now(),estado:'revision_interna',monto:totalExt
 alert('Propuesta guardada exitosamente');
 };
 return(
-<div style={{padding:'2rem',maxWidth:'1200px',margin:'0 auto'}}>
+<div className="page-container" style={{maxWidth:'1200px',margin:'0 auto'}}>
 <div style={{marginBottom:'2rem',textAlign:'center'}}>
 <h1 style={{fontSize:'2rem',fontWeight:800,color:'#0f172a'}}>Nueva Propuesta</h1>
 <p style={{color:'#64748b'}}>Crea una cotizacion de suministro electrico</p>
 </div>
-<div style={{display:'flex',justifyContent:'center',gap:'3rem',marginBottom:'2.5rem'}}>
+<div className="steps-indicator" style={{marginBottom:'2.5rem'}}>
 <div style={{display:'flex',alignItems:'center',gap:'0.75rem',color:step===1?'#0033A0':'#94a3b8',fontWeight:600}}>
-<span style={{width:32,height:32,borderRadius:'50%',background:step===1?'#0033A0':'#e2e8f0',color:step===1?'white':'#64748b',display:'flex',alignItems:'center',justifyContent:'center'}}>1</span> Datos y Sucursales
+<span style={{width:32,height:32,borderRadius:'50%',background:step===1?'#0033A0':'#e2e8f0',color:step===1?'white':'#64748b',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>1</span> <span>Datos y Sucursales</span>
 </div>
 <ChevronRight size={20} color='#94a3b8'/>
 <div style={{display:'flex',alignItems:'center',gap:'0.75rem',color:step===2?'#0033A0':'#94a3b8',fontWeight:600}}>
-<span style={{width:32,height:32,borderRadius:'50%',background:step===2?'#0033A0':'#e2e8f0',color:step===2?'white':'#64748b',display:'flex',alignItems:'center',justifyContent:'center'}}>2</span> Servicios Extras
+<span style={{width:32,height:32,borderRadius:'50%',background:step===2?'#0033A0':'#e2e8f0',color:step===2?'white':'#64748b',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>2</span> <span>Servicios Extras</span>
 </div>
 </div>
-<div style={{display:'grid',gridTemplateColumns:'1fr 350px',gap:'2rem'}}>
+<div className="grid-propuesta">
 <div style={{display:'flex',flexDirection:'column',gap:'1.5rem'}}>
  {step===1?(
-  <div style={{background:'white',borderRadius:'16px',padding:'2rem',boxShadow:'0 4px 6px -1px rgba(0,0,0,0.1)'}}>
+  <div style={{background:'white',borderRadius:'16px',padding:'1.5rem',boxShadow:'0 4px 6px -1px rgba(0,0,0,0.1)'}}>
    <h3 style={{fontSize:'1.1rem',fontWeight:700,marginBottom:'1.5rem',display:'flex',alignItems:'center',gap:'0.5rem'}}><FileText color='#0033A0'/> Datos del Cliente</h3>
-   <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem'}}>
-    <div><label style={{fontSize:'0.85rem',fontWeight:600,display:'block',marginBottom:'0.4rem'}}>Razon Social *</label><input style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #e2e8f0'}} placeholder='Ej: Empresa S.A.' value={formData.clienteNombre} onChange={e=>setFormData({...formData,clienteNombre:e.target.value})}/></div>
-    <div><label style={{fontSize:'0.85rem',fontWeight:600,display:'block',marginBottom:'0.4rem'}}>RUT *</label><input style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #e2e8f0'}} placeholder='76.123.456-7' value={formData.clienteRut} onChange={e=>setFormData({...formData,clienteRut:e.target.value})}/></div>
+   <div className="grid-form-2">
+    <div><label style={{fontSize:'0.85rem',fontWeight:600,display:'block',marginBottom:'0.4rem'}}>Razon Social *</label><input style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #e2e8f0',boxSizing:'border-box'}} placeholder='Ej: Empresa S.A.' value={formData.clienteNombre} onChange={e=>setFormData({...formData,clienteNombre:e.target.value})}/></div>
+    <div><label style={{fontSize:'0.85rem',fontWeight:600,display:'block',marginBottom:'0.4rem'}}>RUT *</label><input style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #e2e8f0',boxSizing:'border-box'}} placeholder='76.123.456-7' value={formData.clienteRut} onChange={e=>setFormData({...formData,clienteRut:e.target.value})}/></div>
    </div>
-   <h3 style={{fontSize:'1.1rem',fontWeight:700,marginTop:'2rem',marginBottom:'1.5rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>Datos Tecnicos <button style={{fontSize:'0.85rem',padding:'0.5rem 1rem',background:'#0033A0',color:'white',border:'none',borderRadius:'8px',cursor:'pointer'}}>+ Agregar Sucursal</button></h3>
+   <h3 style={{fontSize:'1.1rem',fontWeight:700,marginTop:'2rem',marginBottom:'1.5rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:'0.5rem'}}>Datos Tecnicos <button style={{fontSize:'0.85rem',padding:'0.5rem 1rem',background:'#0033A0',color:'white',border:'none',borderRadius:'8px',cursor:'pointer'}}>+ Agregar Sucursal</button></h3>
    {formData.sucursales.map(s=>(
     <div key={s.id} style={{padding:'1.5rem',border:'1px solid #e2e8f0',borderRadius:'12px',marginBottom:'1rem'}}>
      <p style={{fontWeight:700,marginBottom:'1rem'}}>Sucursal {s.id}</p>
-     <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem'}}>
-      <input style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #e2e8f0'}} placeholder='Nombre Sucursal'/>
-      <input style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #e2e8f0'}} placeholder='Direccion'/>
-      <input type='number' style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #e2e8f0'}} placeholder='Precio Base (USD/MWh)'/>
-      <input type='number' style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #e2e8f0'}} placeholder='Potencia (kW)' onChange={e=>{
+     <div className="grid-form-2">
+      <input style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #e2e8f0',boxSizing:'border-box'}} placeholder='Nombre Sucursal'/>
+      <input style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #e2e8f0',boxSizing:'border-box'}} placeholder='Direccion'/>
+      <input type='number' style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #e2e8f0',boxSizing:'border-box'}} placeholder='Precio Base (USD/MWh)'/>
+      <input type='number' style={{width:'100%',padding:'0.75rem',borderRadius:'8px',border:'1px solid #e2e8f0',boxSizing:'border-box'}} placeholder='Potencia (kW)' onChange={e=>{
        const news=[...formData.sucursales]; news[0].potencia=Number(e.target.value); setFormData({...formData,sucursales:news});
       }}/>
      </div>
@@ -52,16 +53,16 @@ return(
    ))}
   </div>
  ):(
-  <div style={{background:'white',borderRadius:'16px',padding:'2rem',boxShadow:'0 4px 6px -1px rgba(0,0,0,0.1)'}}>
+  <div style={{background:'white',borderRadius:'16px',padding:'1.5rem',boxShadow:'0 4px 6px -1px rgba(0,0,0,0.1)'}}>
    <h3 style={{fontSize:'1.1rem',fontWeight:700,marginBottom:'1.5rem'}}>Selecciona Servicios Adicionales</h3>
    {extras.map(e=>(
-    <label key={e.id} style={{display:'flex',alignItems:'center',gap:'1rem',padding:'1.25rem',border:'1px solid #e2e8f0',borderRadius:'12px',marginBottom:'1rem',cursor:'pointer'}}>
+    <label key={e.id} style={{display:'flex',alignItems:'center',gap:'1rem',padding:'1.25rem',border:'1px solid #e2e8f0',borderRadius:'12px',marginBottom:'1rem',cursor:'pointer',flexWrap:'wrap'}}>
      <input type='checkbox' checked={formData.serviciosExtras.includes(e.id)} onChange={()=>{
       const next=formData.serviciosExtras.includes(e.id)?formData.serviciosExtras.filter(x=>x!==e.id):[...formData.serviciosExtras,e.id];
       setFormData({...formData,serviciosExtras:next});
      }} style={{width:20,height:20}}/>
      <div style={{width:40,height:40,background:'#eff6ff',borderRadius:'8px',display:'flex',alignItems:'center',justifyContent:'center',color:'#0033A0'}}>{e.icon}</div>
-     <div style={{flex:1}}><p style={{fontWeight:600}}>{e.label}</p><p style={{fontSize:'0.8rem',color:'#64748b'}}>Incluye soporte tecnico y reportes mensuales</p></div>
+     <div style={{flex:1,minWidth:150}}><p style={{fontWeight:600}}>{e.label}</p><p style={{fontSize:'0.8rem',color:'#64748b'}}>Incluye soporte tecnico y reportes mensuales</p></div>
      <div style={{fontWeight:700}}>${e.price.toLocaleString('es-CL')}</div>
     </label>
    ))}
